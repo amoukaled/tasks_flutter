@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasks_flutter/services/auth_service.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -6,8 +7,31 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  String error = "Error";
+  static const String _emailError = "Invalid email";
+  String _error = " ";
 
+  late TextEditingController _emailCont;
+  late TextEditingController _passCont;
+  late FocusNode _passFocus;
+  bool _autoValidate = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _emailCont = TextEditingController();
+    _passCont = TextEditingController();
+    _passFocus = FocusNode();
+  }
+
+  @override
+  void dispose() {
+    _emailCont.dispose();
+    _passCont.dispose();
+    _passFocus.dispose();
+    super.dispose();
+  }
+
+  /// Avoided using form and TextFormField due to the card design
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,7 +59,7 @@ class _LoginState extends State<Login> {
                     alignment: Alignment.center,
                     fit: BoxFit.scaleDown,
                     child: Text(
-                      error,
+                      _error,
                       style: TextStyle(
                           fontSize: 22,
                           fontStyle: FontStyle.italic,
@@ -69,7 +93,29 @@ class _LoginState extends State<Login> {
                     Expanded(
                       flex: 5,
                       child: TextField(
+                        onChanged: (val) {
+                          if (_autoValidate) {
+                            bool isMatch = AuthService.emailRegEx.hasMatch(val);
+
+                            if (isMatch) {
+                              setState(() {
+                                _error = " ";
+                              });
+                            } else {
+                              setState(() {
+                                _error = _emailError;
+                                ;
+                              });
+                            }
+                          }
+                        },
+                        onSubmitted: (_) {
+                          if (!_passFocus.hasFocus) {
+                            _passFocus.requestFocus();
+                          }
+                        },
                         autofocus: false,
+                        controller: _emailCont,
                         maxLines: 1,
                         keyboardType: TextInputType.text,
                         textCapitalization: TextCapitalization.sentences,
@@ -121,8 +167,14 @@ class _LoginState extends State<Login> {
                     Expanded(
                       flex: 3,
                       child: TextField(
+                        onChanged: (_) {
+                          setState(() {});
+                        },
                         autofocus: false,
                         maxLines: 1,
+                        obscureText: true,
+                        controller: _passCont,
+                        focusNode: _passFocus,
                         keyboardType: TextInputType.text,
                         textCapitalization: TextCapitalization.sentences,
                         textAlign: TextAlign.start,
@@ -198,7 +250,24 @@ class _LoginState extends State<Login> {
                           "Login",
                           style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
-                        onPressed: () {},
+                        onPressed: (_passCont.text.isNotEmpty)
+                            ? () {
+                                String email = _emailCont.text;
+                                bool isMatch =
+                                    AuthService.emailRegEx.hasMatch(email);
+
+                                if (!isMatch) {
+                                  setState(() {
+                                    _autoValidate = true;
+                                    _error = _emailError;
+                                  });
+                                } else {
+                                  setState(() {
+                                    _autoValidate = false;
+                                  });
+                                }
+                              }
+                            : null,
                       ),
                     ),
                   ),
