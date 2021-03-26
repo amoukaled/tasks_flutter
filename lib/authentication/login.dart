@@ -205,6 +205,104 @@ class _LoginState extends State<Login> {
                 ],
               ),
             ),
+            SizedBox(height: 40),
+            Row(
+              children: [
+                Expanded(
+                  flex: 5,
+                  child: Divider(
+                    height: 3,
+                    indent: 15,
+                    endIndent: 15,
+                    thickness: 5,
+                    color: Colors.blueGrey[300],
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: FittedBox(
+                      alignment: Alignment.center,
+                      fit: BoxFit.scaleDown,
+                      child: Text(
+                        "OR",
+                        style: TextStyle(color: Colors.black, fontSize: 15),
+                      )),
+                ),
+                Expanded(
+                  flex: 5,
+                  child: Divider(
+                    height: 3,
+                    indent: 15,
+                    endIndent: 15,
+                    thickness: 5,
+                    color: Colors.blueGrey[300],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(height: 40),
+            Card(
+              margin: EdgeInsets.symmetric(horizontal: 10),
+              child: Padding(
+                padding: const EdgeInsets.all(15),
+                child: Column(
+                  children: [
+                    Row(
+                      children: [
+                        Expanded(
+                          child: FittedBox(
+                            alignment: Alignment.center,
+                            fit: BoxFit.scaleDown,
+                            child: Text(
+                              "Don't have an account?",
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.blue[900],
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    IntrinsicHeight(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Expanded(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: TextButton.icon(
+                                icon: Icon(
+                                  Icons.create_rounded,
+                                  color: IconTheme.of(context).color,
+                                ),
+                                style: ButtonStyle(
+                                    backgroundColor: TextButtonTheme.of(context)
+                                        .style!
+                                        .backgroundColor,
+                                    shape: TextButtonTheme.of(context)
+                                        .style!
+                                        .shape),
+                                label: Text(
+                                  "Register",
+                                  style: TextStyle(
+                                      color: Colors.black, fontSize: 16),
+                                ),
+                                onPressed: () {},
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            )
           ],
         ),
       ),
