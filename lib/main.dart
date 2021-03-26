@@ -8,6 +8,7 @@ import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:hive/hive.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:tasks_flutter/authentication/login.dart';
+import 'package:tasks_flutter/authentication/register.dart';
 
 // App imports
 import 'package:tasks_flutter/hive/tasksHiveBox.dart';
@@ -94,7 +95,7 @@ class _MyAppState extends State<MyApp> {
         backgroundColor: Colors.grey[400],
         accentColor: Colors.blueGrey,
       ),
-      home: Login(),
+      home: Register(),
     );
   }
 }

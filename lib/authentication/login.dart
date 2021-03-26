@@ -104,7 +104,6 @@ class _LoginState extends State<Login> {
                             } else {
                               setState(() {
                                 _error = _emailError;
-                                ;
                               });
                             }
                           }
