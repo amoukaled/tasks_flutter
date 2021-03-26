@@ -149,7 +149,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                                   Expanded(
                                     flex: 5,
                                     child: TextField(
-                                      autofocus: true,
+                                      autofocus: false,
                                       onChanged: (_) {
                                         setSheetState(() {});
                                       },
@@ -216,7 +216,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                                   Expanded(
                                     flex: 5,
                                     child: TextField(
-                                      autofocus: true,
+                                      autofocus: false,
                                       onEditingComplete: () async =>
                                           await _submitSheet(context),
                                       controller: _noteCont,

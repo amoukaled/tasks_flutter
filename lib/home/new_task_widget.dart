@@ -205,7 +205,7 @@ class _NewTaskWidgetState extends State<NewTaskWidget> {
                                   Expanded(
                                     flex: 5,
                                     child: TextField(
-                                      autofocus: true,
+                                      autofocus: false,
                                       onEditingComplete: () async =>
                                           await _submitSheet(context),
                                       controller: _noteCont,
