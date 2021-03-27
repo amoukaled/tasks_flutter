@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tasks_flutter/services/auth_service.dart';
+import 'package:tasks_flutter/shared/popup.dart';
 
 class Login extends StatefulWidget {
   final void Function() toggleLogin;
@@ -243,17 +244,17 @@ class _LoginState extends State<Login> {
                           Icons.login,
                           color: IconTheme.of(context).color,
                         ),
-                        style: ButtonStyle(
-                            backgroundColor: TextButtonTheme.of(context)
-                                .style!
-                                .backgroundColor,
-                            shape: TextButtonTheme.of(context).style!.shape),
+                        // style: ButtonStyle(
+                        //     backgroundColor: TextButtonTheme.of(context)
+                        //         .style!
+                        //         .backgroundColor,
+                        //     shape: TextButtonTheme.of(context).style!.shape),
                         label: Text(
                           "Login",
                           style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         onPressed: (_passCont.text.isNotEmpty)
-                            ? () {
+                            ? () async {
                                 String email = _emailCont.text;
                                 bool isMatch =
                                     AuthService.emailRegEx.hasMatch(email);
@@ -267,6 +268,26 @@ class _LoginState extends State<Login> {
                                   setState(() {
                                     _autoValidate = false;
                                   });
+                                  setState(() {
+                                    _autoValidate = false;
+                                  });
+                                  String password = _passCont.text;
+
+                                  // Authentication
+                                  dynamic result;
+
+                                  await Popup.loadingPopup(
+                                      context: context,
+                                      callback: () async {
+                                        result = await AuthService()
+                                            .signIn(email, password);
+                                      });
+                                  if (result != null) {
+                                    if (result is String) {
+                                      await Popup.wentWrongWidget(
+                                          context: context, message: result);
+                                    }
+                                  }
                                 }
                               }
                             : null,

@@ -26,4 +26,29 @@ class AuthError {
         }
     }
   }
+
+  static String login(FirebaseAuthException e) {
+    switch (e.code) {
+      case "invalid-email":
+        {
+          return "Invalid email";
+        }
+      case "user-disabled":
+        {
+          return "Something went wrong";
+        }
+      case "user-not-found":
+        {
+          return "Incorrect email/password";
+        }
+      case "wrong-password":
+        {
+          return "Incorrect email/password";
+        }
+      default:
+        {
+          return "Something went wrong";
+        }
+    }
+  }
 }

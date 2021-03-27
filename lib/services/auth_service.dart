@@ -33,6 +33,17 @@ class AuthService {
     }
   }
 
+  Future<dynamic> signIn(String email, String password) async {
+    try {
+      await _auth.signInWithEmailAndPassword(email: email, password: password);
+      return true;
+    } on FirebaseAuthException catch (e) {
+      return AuthError.login(e);
+    } catch (e) {
+      return "Something went wrong";
+    }
+  }
+
   Future<void> signOut() async {
     await _auth.signOut();
   }
