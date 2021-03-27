@@ -44,6 +44,16 @@ class AuthService {
     }
   }
 
+  Future<dynamic> forgotPassword(String email) async {
+    try {
+      await _auth.sendPasswordResetEmail(email: email);
+      return true;
+    } catch (e) {
+      print(e);
+      return "Something went wrong";
+    }
+  }
+
   Future<void> signOut() async {
     await _auth.signOut();
   }

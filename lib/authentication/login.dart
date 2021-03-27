@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tasks_flutter/authentication/forgot_password.dart';
 import 'package:tasks_flutter/services/auth_service.dart';
 import 'package:tasks_flutter/shared/popup.dart';
 
@@ -209,27 +210,7 @@ class _LoginState extends State<Login> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 15),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: FittedBox(
-                      alignment: Alignment.centerLeft,
-                      fit: BoxFit.scaleDown,
-                      child: GestureDetector(
-                        onTap: () {
-                          print("tapped");
-                        },
-                        child: Text(
-                          "Forgot password?",
-                          style: TextStyle(
-                              color: Colors.blue[900],
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+              child: ForgotPassword(),
             ),
             SizedBox(height: 20),
             IntrinsicHeight(
