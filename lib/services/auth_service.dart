@@ -33,4 +33,8 @@ class AuthService {
       return "Something went wrong";
     }
   }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
+  }
 }
