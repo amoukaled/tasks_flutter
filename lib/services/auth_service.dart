@@ -23,10 +23,9 @@ class AuthService {
   /// Registers a new user with email and password
   Future<dynamic> registerUser(String email, String password) async {
     try {
-      UserCredential credential = await _auth.createUserWithEmailAndPassword(
+      await _auth.createUserWithEmailAndPassword(
           email: email, password: password);
-
-      print(credential);
+      return true;
     } on FirebaseAuthException catch (e) {
       return AuthError.register(e);
     } catch (e) {

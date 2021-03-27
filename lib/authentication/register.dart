@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tasks_flutter/services/auth_service.dart';
+import 'package:tasks_flutter/shared/popup.dart';
 
 class Register extends StatefulWidget {
   final void Function() toggleLogin;
@@ -297,11 +298,11 @@ class _RegisterState extends State<Register> {
                           Icons.create_rounded,
                           color: IconTheme.of(context).color,
                         ),
-                        style: ButtonStyle(
-                            backgroundColor: TextButtonTheme.of(context)
-                                .style!
-                                .backgroundColor,
-                            shape: TextButtonTheme.of(context).style!.shape),
+                        // style: ButtonStyle(
+                        //     backgroundColor: TextButtonTheme.of(context)
+                        //         .style!
+                        //         .backgroundColor,
+                        //     shape: TextButtonTheme.of(context).style!.shape),
                         label: Text(
                           "Register",
                           style: TextStyle(color: Colors.black, fontSize: 16),
@@ -322,8 +323,22 @@ class _RegisterState extends State<Register> {
                                     _autoValidate = false;
                                   });
                                   String password = _pass1Cont.text;
-                                  await AuthService()
-                                      .registerUser(email, password);
+
+                                  // Authentication
+                                  dynamic result;
+
+                                  await Popup.loadingPopup(
+                                      context: context,
+                                      callback: () async {
+                                        result = await AuthService()
+                                            .registerUser(email, password);
+                                      });
+                                  if (result != null) {
+                                    if (result is String) {
+                                      await Popup.wentWrongWidget(
+                                          context: context, message: result);
+                                    }
+                                  }
                                 }
                               }
                             : null,

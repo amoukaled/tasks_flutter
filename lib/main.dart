@@ -73,7 +73,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
       theme: ThemeData(
         textButtonTheme: TextButtonThemeData(
           style: ButtonStyle(
@@ -89,6 +88,12 @@ class _MyAppState extends State<MyApp> {
               ),
             ),
           ),
+        ),
+        dialogTheme: DialogTheme(
+          elevation: 0,
+          backgroundColor: Colors.blueGrey[300],
+          shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8))),
         ),
         cardTheme: CardTheme(
           color: Colors.blueGrey[300],
