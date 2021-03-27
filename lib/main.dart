@@ -7,14 +7,15 @@ import 'package:provider/provider.dart';
 import 'package:path_provider/path_provider.dart' as path_provider;
 import 'package:hive/hive.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
-import 'package:tasks_flutter/authentication/login.dart';
-import 'package:tasks_flutter/authentication/register.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 // App imports
 import 'package:tasks_flutter/hive/tasksHiveBox.dart';
 import 'package:tasks_flutter/models/task.dart';
 import 'package:tasks_flutter/provider/task_state.dart';
-import 'package:tasks_flutter/home/home.dart';
+import 'package:tasks_flutter/authentication/user_checker.dart';
+import 'package:tasks_flutter/services/auth_service.dart';
 
 void main() async {
   SystemChrome.setSystemUIOverlayStyle(
@@ -41,10 +42,17 @@ void main() async {
   // Getting Hive data to pass to the change notifier
   List<Task> tasks = await TasksHiveBox.getBoxData();
 
+  // Firebase
+  await Firebase.initializeApp();
+
   runApp(
     ChangeNotifierProvider(
       create: (context) => TaskState(tasks: tasks),
-      child: MyApp(),
+      child: StreamProvider<User?>.value(
+        initialData: null,
+        value: AuthService().userStream,
+        child: MyApp(),
+      ),
     ),
   );
 }
@@ -95,7 +103,7 @@ class _MyAppState extends State<MyApp> {
         backgroundColor: Colors.grey[400],
         accentColor: Colors.blueGrey,
       ),
-      home: Register(),
+      home: UserChecker(),
     );
   }
 }

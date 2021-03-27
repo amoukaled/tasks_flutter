@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tasks_flutter/services/auth_service.dart';
 
 class Login extends StatefulWidget {
+  final void Function() toggleLogin;
+
+  Login({required this.toggleLogin});
   @override
   _LoginState createState() => _LoginState();
 }
@@ -360,7 +363,7 @@ class _LoginState extends State<Login> {
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 16),
                                 ),
-                                onPressed: () {},
+                                onPressed: widget.toggleLogin,
                               ),
                             ),
                           ),

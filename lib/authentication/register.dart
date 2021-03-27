@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:tasks_flutter/services/auth_service.dart';
 
 class Register extends StatefulWidget {
+  final void Function() toggleLogin;
+
+  Register({required this.toggleLogin});
   @override
   _RegisterState createState() => _RegisterState();
 }
@@ -304,7 +307,7 @@ class _RegisterState extends State<Register> {
                           style: TextStyle(color: Colors.black, fontSize: 16),
                         ),
                         onPressed: (_passwordValidation)
-                            ? () {
+                            ? () async {
                                 String email = _emailCont.text;
                                 bool isMatch =
                                     AuthService.emailRegEx.hasMatch(email);
@@ -318,6 +321,9 @@ class _RegisterState extends State<Register> {
                                   setState(() {
                                     _autoValidate = false;
                                   });
+                                  String password = _pass1Cont.text;
+                                  await AuthService()
+                                      .registerUser(email, password);
                                 }
                               }
                             : null,
@@ -414,7 +420,7 @@ class _RegisterState extends State<Register> {
                                   style: TextStyle(
                                       color: Colors.black, fontSize: 16),
                                 ),
-                                onPressed: () {},
+                                onPressed: widget.toggleLogin,
                               ),
                             ),
                           ),
