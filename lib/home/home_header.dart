@@ -1,4 +1,5 @@
 // Flutter imports
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // Pub imports
@@ -7,7 +8,9 @@ import 'package:provider/provider.dart';
 // App imports
 import 'package:tasks_flutter/provider/task_state.dart';
 import 'package:tasks_flutter/services/auth_service.dart';
+import 'package:tasks_flutter/services/database_service.dart';
 import 'package:tasks_flutter/shared/percentage_indicator.dart';
+import 'package:tasks_flutter/shared/popup.dart';
 
 class HomeHeader extends StatelessWidget {
   @override
@@ -95,11 +98,30 @@ class HomeHeader extends StatelessWidget {
                   ),
                   Expanded(
                     flex: 1,
-                    child: IconButton(
-                        icon: Icon(Icons.logout),
-                        onPressed: () async {
-                          await AuthService().signOut();
-                        }),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        IconButton(
+                            icon: Icon(Icons.backup_rounded),
+                            onPressed: () async {
+                              User? user =
+                                  Provider.of<User?>(context, listen: false);
+                              if (user != null) {
+                                await Popup.loadingPopup(
+                                    context: context,
+                                    callback: () async {
+                                      await DatabaseService(user.uid)
+                                          .setUserData(state.tasks);
+                                    });
+                              }
+                            }),
+                        IconButton(
+                            icon: Icon(Icons.logout),
+                            onPressed: () async {
+                              await AuthService().signOut(state);
+                            }),
+                      ],
+                    ),
                   ),
                 ],
               )

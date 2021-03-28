@@ -1,5 +1,7 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:tasks_flutter/services/auth_service.dart';
+import 'package:tasks_flutter/services/database_service.dart';
 import 'package:tasks_flutter/shared/loading_screen.dart';
 import 'package:tasks_flutter/shared/popup.dart';
 
@@ -53,6 +55,54 @@ class _RegisterState extends State<Register> {
     }
 
     return false;
+  }
+
+  Future<void> _registerCallback() async {
+    String email = _emailCont.text;
+    bool isMatch = AuthService.emailRegEx.hasMatch(email);
+
+    if (!isMatch) {
+      if (this.mounted) {
+        setState(() {
+          _autoValidate = true;
+          _error = _emailError;
+        });
+      }
+    } else {
+      if (this.mounted) {
+        setState(() {
+          _autoValidate = false;
+        });
+      }
+
+      String password = _pass1Cont.text;
+
+      // Authentication
+      if (this.mounted) {
+        setState(() {
+          _isLoading = true;
+        });
+      }
+
+      dynamic result = await AuthService().registerUser(email, password);
+      if (result is UserCredential) {
+        if (result.user != null) {
+          String id = result.user!.uid;
+          await DatabaseService(id).initUser();
+        }
+      }
+
+      if (this.mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+        if (result != null) {
+          if (result is String) {
+            await Popup.wentWrongWidget(context: context, message: result);
+          }
+        }
+      }
+    }
   }
 
   /// Avoided using form and TextFormField due to the card design
@@ -317,51 +367,7 @@ class _RegisterState extends State<Register> {
                                     color: Colors.black, fontSize: 16),
                               ),
                               onPressed: (_passwordValidation)
-                                  ? () async {
-                                      String email = _emailCont.text;
-                                      bool isMatch = AuthService.emailRegEx
-                                          .hasMatch(email);
-
-                                      if (!isMatch) {
-                                        if (this.mounted) {
-                                          setState(() {
-                                            _autoValidate = true;
-                                            _error = _emailError;
-                                          });
-                                        }
-                                      } else {
-                                        if (this.mounted) {
-                                          setState(() {
-                                            _autoValidate = false;
-                                          });
-                                        }
-
-                                        String password = _pass1Cont.text;
-
-                                        // Authentication
-                                        if (this.mounted) {
-                                          setState(() {
-                                            _isLoading = true;
-                                          });
-                                        }
-
-                                        dynamic result = await AuthService()
-                                            .registerUser(email, password);
-
-                                        if (this.mounted) {
-                                          setState(() {
-                                            _isLoading = false;
-                                          });
-                                          if (result != null) {
-                                            if (result is String) {
-                                              await Popup.wentWrongWidget(
-                                                  context: context,
-                                                  message: result);
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
+                                  ? _registerCallback
                                   : null,
                             ),
                           ),

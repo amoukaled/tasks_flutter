@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 // App imports
 import 'package:tasks_flutter/models/task.dart';
 import 'package:tasks_flutter/provider/task_state.dart';
-import 'package:tasks_flutter/shared/AnimatedCustomCheckbox.dart';
+import 'package:tasks_flutter/shared/animated_custom_checkbox.dart';
 
 class TaskWidget extends StatefulWidget {
   final Task task;

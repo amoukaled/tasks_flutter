@@ -65,4 +65,21 @@ class TaskState extends ChangeNotifier {
     await task.save();
     notifyListeners();
   }
+
+  Future<void> login(List<Task> tasksList) async {
+    // Clearing
+    await _box.clear();
+    tasks.clear();
+
+    // Adding
+    await _box.addAll(tasksList);
+    tasks.addAll(tasksList);
+    notifyListeners();
+  }
+
+  Future<void> logout() async {
+    await _box.clear();
+    tasks.clear();
+    notifyListeners();
+  }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:tasks_flutter/authentication/forgot_password.dart';
+import 'package:tasks_flutter/provider/task_state.dart';
 import 'package:tasks_flutter/services/auth_service.dart';
 import 'package:tasks_flutter/shared/loading_screen.dart';
 import 'package:tasks_flutter/shared/popup.dart';
@@ -36,6 +38,51 @@ class _LoginState extends State<Login> {
     _passCont.dispose();
     _passFocus.dispose();
     super.dispose();
+  }
+
+  Future<void> _loginCallback() async {
+    String email = _emailCont.text;
+    bool isMatch = AuthService.emailRegEx.hasMatch(email);
+
+    if (!isMatch) {
+      if (this.mounted) {
+        setState(() {
+          _autoValidate = true;
+          _error = _emailError;
+        });
+      }
+    } else {
+      if (this.mounted) {
+        setState(() {
+          _autoValidate = false;
+        });
+      }
+      String password = _passCont.text;
+
+      if (this.mounted) {
+        setState(() {
+          _isLoading = true;
+        });
+      }
+
+      // State
+      TaskState state = Provider.of<TaskState>(context, listen: false);
+
+      // Authentication
+      dynamic result = await AuthService().signIn(email, password, state);
+
+      if (this.mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+
+        if (result != null) {
+          if (result is String) {
+            await Popup.wentWrongWidget(context: context, message: result);
+          }
+        }
+      }
+    }
   }
 
   /// Avoided using form and TextFormField due to the card design
@@ -242,50 +289,7 @@ class _LoginState extends State<Login> {
                                     color: Colors.black, fontSize: 16),
                               ),
                               onPressed: (_passCont.text.isNotEmpty)
-                                  ? () async {
-                                      String email = _emailCont.text;
-                                      bool isMatch = AuthService.emailRegEx
-                                          .hasMatch(email);
-
-                                      if (!isMatch) {
-                                        if (this.mounted) {
-                                          setState(() {
-                                            _autoValidate = true;
-                                            _error = _emailError;
-                                          });
-                                        }
-                                      } else {
-                                        if (this.mounted) {
-                                          setState(() {
-                                            _autoValidate = false;
-                                          });
-                                        }
-                                        String password = _passCont.text;
-
-                                        if (this.mounted) {
-                                          setState(() {
-                                            _isLoading = true;
-                                          });
-                                        }
-                                        // Authentication
-                                        dynamic result = await AuthService()
-                                            .signIn(email, password);
-
-                                        if (this.mounted) {
-                                          setState(() {
-                                            _isLoading = false;
-                                          });
-
-                                          if (result != null) {
-                                            if (result is String) {
-                                              await Popup.wentWrongWidget(
-                                                  context: context,
-                                                  message: result);
-                                            }
-                                          }
-                                        }
-                                      }
-                                    }
+                                  ? _loginCallback
                                   : null,
                             ),
                           ),
