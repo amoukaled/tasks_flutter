@@ -10,11 +10,17 @@ class PercentageIndicator extends StatelessWidget {
       children: [
         Row(
           children: [
-            Text(
-              " ${(value * 100).floor()}%",
-              style: TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
+            Expanded(
+              child: FittedBox(
+                alignment: Alignment.center,
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  " ${(value * 100).floor()}%",
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
               ),
             ),
           ],
@@ -31,7 +37,8 @@ class PercentageIndicator extends StatelessWidget {
             builder: (context, double? col, _) {
               return CircularProgressIndicator(
                 backgroundColor: Colors.grey[400],
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.greenAccent[700]!),
+                valueColor:
+                    AlwaysStoppedAnimation<Color>(Colors.greenAccent[700]!),
                 value: col,
                 strokeWidth: 10,
               );
