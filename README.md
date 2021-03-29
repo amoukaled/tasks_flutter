@@ -1,16 +1,13 @@
 # tasks_flutter
 
-A new Flutter project.
+A simple tasks app built using Flutter and Dart with Firebase for the backend.
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+### Connect your Firebase account
 
-A few resources to get you started if this is your first Flutter project:
+1. Go to [Firebase](https://firebase.google.com/) and create a new `Android App`.
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+2. Download `google-services.json` and place it under `/android/app/{json file}`.
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+Note: Android dependencies are already added to the `.gradle` files.
