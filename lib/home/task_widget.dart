@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 // App imports
 import 'package:tasks_flutter/models/task.dart';
 import 'package:tasks_flutter/provider/task_state.dart';
-import 'package:tasks_flutter/shared/AnimatedCustomCheckbox.dart';
+import 'package:tasks_flutter/shared/animated_custom_checkbox.dart';
 
 class TaskWidget extends StatefulWidget {
   final Task task;
@@ -24,11 +24,9 @@ class TaskWidget extends StatefulWidget {
 }
 
 class _TaskWidgetState extends State<TaskWidget> {
-  final _shape = RoundedRectangleBorder(
-    borderRadius: BorderRadius.only(
-      topLeft: Radius.circular(10),
-      topRight: Radius.circular(10),
-    ),
+  final BorderRadius _borderRadius = BorderRadius.only(
+    topLeft: Radius.circular(10),
+    topRight: Radius.circular(10),
   );
   final Duration _duration = Duration(milliseconds: 200);
   final double _radius = 8.0;
@@ -81,8 +79,6 @@ class _TaskWidgetState extends State<TaskWidget> {
         onTap: () async {
           await showModalBottomSheet(
             enableDrag: false,
-            shape: _shape,
-            backgroundColor: Colors.grey[400],
             context: context,
             isScrollControlled: true,
             builder: (context) {
@@ -106,7 +102,7 @@ class _TaskWidgetState extends State<TaskWidget> {
                                     padding: EdgeInsets.symmetric(vertical: 20),
                                     decoration: BoxDecoration(
                                         color: Theme.of(context).accentColor,
-                                        borderRadius: _shape.borderRadius),
+                                        borderRadius: _borderRadius),
                                     child: Text(
                                       "Edit Task",
                                       style: TextStyle(
