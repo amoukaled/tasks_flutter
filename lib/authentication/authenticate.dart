@@ -1,4 +1,7 @@
+// Flutter imports
 import 'package:flutter/material.dart';
+
+// App imports
 import 'package:tasks_flutter/authentication/login.dart';
 import 'package:tasks_flutter/authentication/register.dart';
 
@@ -15,16 +18,20 @@ class _AuthenticateState extends State<Authenticate> {
     return (isLogin)
         ? Login(
             toggleLogin: () {
-              setState(() {
-                isLogin = false;
-              });
+              if (this.mounted) {
+                setState(() {
+                  isLogin = false;
+                });
+              }
             },
           )
         : Register(
             toggleLogin: () {
-              setState(() {
-                isLogin = true;
-              });
+              if (this.mounted) {
+                setState(() {
+                  isLogin = true;
+                });
+              }
             },
           );
   }

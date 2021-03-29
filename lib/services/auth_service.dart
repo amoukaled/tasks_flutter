@@ -31,7 +31,7 @@ class AuthService {
       return credential;
     } on FirebaseAuthException catch (e) {
       return AuthError.register(e);
-    } catch (e) {
+    } catch (_) {
       return "Something went wrong";
     }
   }
@@ -50,7 +50,7 @@ class AuthService {
       return true;
     } on FirebaseAuthException catch (e) {
       return AuthError.login(e);
-    } catch (e) {
+    } catch (_) {
       return "Something went wrong";
     }
   }
@@ -59,8 +59,7 @@ class AuthService {
     try {
       await _auth.sendPasswordResetEmail(email: email);
       return true;
-    } catch (e) {
-      print(e);
+    } catch (_) {
       return "Something went wrong";
     }
   }

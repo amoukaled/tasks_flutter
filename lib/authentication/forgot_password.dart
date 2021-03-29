@@ -1,4 +1,7 @@
+// Flutter imports
 import 'package:flutter/material.dart';
+
+// App imports
 import 'package:tasks_flutter/services/auth_service.dart';
 import 'package:tasks_flutter/shared/popup.dart';
 
@@ -8,11 +11,9 @@ class ForgotPassword extends StatefulWidget {
 }
 
 class _ForgotPasswordState extends State<ForgotPassword> {
-  final _shape = RoundedRectangleBorder(
-    borderRadius: BorderRadius.only(
-      topLeft: Radius.circular(10),
-      topRight: Radius.circular(10),
-    ),
+  final BorderRadius _borderRadius = BorderRadius.only(
+    topLeft: Radius.circular(10),
+    topRight: Radius.circular(10),
   );
 
   late TextEditingController _emailCont;
@@ -67,8 +68,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               onTap: () async {
                 await showModalBottomSheet(
                   enableDrag: false,
-                  shape: _shape,
-                  backgroundColor: Colors.grey[400],
                   context: context,
                   isScrollControlled: true,
                   builder: (context) {
@@ -94,8 +93,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                           decoration: BoxDecoration(
                                               color:
                                                   Theme.of(context).accentColor,
-                                              borderRadius:
-                                                  _shape.borderRadius),
+                                              borderRadius: _borderRadius),
                                           child: Text(
                                             "Reset Password",
                                             style: TextStyle(
@@ -142,7 +140,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                                           child: TextField(
                                             autofocus: true,
                                             onChanged: (_) {
-                                              setSheetState(() {});
+                                              if (this.mounted) {
+                                                setSheetState(() {});
+                                              }
                                             },
                                             controller: _emailCont,
                                             maxLines: 1,

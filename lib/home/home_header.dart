@@ -1,9 +1,9 @@
 // Flutter imports
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 // Pub imports
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 // App imports
 import 'package:tasks_flutter/provider/task_state.dart';

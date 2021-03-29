@@ -1,5 +1,10 @@
+// Flutter imports
 import 'package:flutter/material.dart';
+
+// Pub imports
 import 'package:provider/provider.dart';
+
+// App imports
 import 'package:tasks_flutter/authentication/forgot_password.dart';
 import 'package:tasks_flutter/provider/task_state.dart';
 import 'package:tasks_flutter/services/auth_service.dart';

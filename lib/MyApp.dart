@@ -58,6 +58,14 @@ class _MyAppState extends State<MyApp> {
               shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.all(Radius.circular(8))),
             ),
+            bottomSheetTheme: BottomSheetThemeData(
+                backgroundColor: Colors.grey[400],
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                  ),
+                )),
             cardTheme: CardTheme(
               color: Colors.blueGrey[300],
               elevation: 0,

@@ -23,8 +23,7 @@ class DatabaseService {
   Future<void> initUser() async {
     if (id != null) {
       try {
-        Map<String, dynamic> data = {"tasks": []};
-        await _usersColl.doc(id).set(data);
+        await _usersColl.doc(id).set({"tasks": []});
       } catch (_) {}
     }
   }
@@ -75,22 +74,24 @@ class DatabaseService {
   }
 
   Future<void> setUserData(List<Task> tasks) async {
-    DocumentReference userDoc = _usersColl.doc(id);
+    if (this.id != null) {
+      DocumentReference userDoc = _usersColl.doc(id);
 
-    List<Map<String, dynamic>> data = [];
+      List<Map<String, dynamic>> data = [];
 
-    for (Task task in tasks) {
-      data.add({
-        "title": task.title,
-        "id": task.id,
-        "note": task.note,
-        "isChecked": task.isChecked,
-        "position": task.position,
-      });
+      for (Task task in tasks) {
+        data.add({
+          "title": task.title,
+          "id": task.id,
+          "note": task.note,
+          "isChecked": task.isChecked,
+          "position": task.position,
+        });
+      }
+
+      try {
+        await userDoc.set({"tasks": data});
+      } catch (_) {}
     }
-
-    try {
-      await userDoc.set({"tasks": data});
-    } catch (_) {}
   }
 }

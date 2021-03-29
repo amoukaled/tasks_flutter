@@ -1,5 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
+// Flutter imports
 import 'package:flutter/material.dart';
+
+// Pub imports
+import 'package:firebase_auth/firebase_auth.dart';
+
+// App imports
 import 'package:tasks_flutter/services/auth_service.dart';
 import 'package:tasks_flutter/services/database_service.dart';
 import 'package:tasks_flutter/shared/loading_screen.dart';
